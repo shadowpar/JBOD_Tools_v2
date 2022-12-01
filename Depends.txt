@@ -1,0 +1,10 @@
+RPM BASED:
+python3
+python36-dbus
+dbus-python-devel
+dbus-python
+sg3_utils
+
+PIP BASED:
+paramiko
+sqlalchemy

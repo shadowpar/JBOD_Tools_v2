@@ -1,0 +1,107 @@
+/* .fit-picture {
+    border: 1px solid black;
+    position: relative;
+    left: 0px;
+    top: 0px;
+    width: 78%;
+}
+.fit-tooltip {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 20%;
+    height: 80.5%;
+}
+
+.server-menu {
+    width: auto;
+    float: right;
+    padding: 5px;
+    border: 3px solid green;
+}
+
+.server-menu-td {
+width: auto;
+border: 3px solid blue;
+text-align: center;
+color: green;
+font-family: "Verdana", "Times New Roman";
+}
+
+
+.server-tree {
+max-width: 30%;
+float: left;
+padding: 10px;
+border: 3px solid green;
+text-align: left;
+color: blue;
+font-size: large;
+font-family: "Verdana", "Times New Roman";
+}
+.column-header {
+width: 100%;
+float: left;
+text-align: center;
+font-size: large;
+color: red;
+}
+
+.raid-array {
+padding: 10px;
+float: left;
+border: 2px solid red;
+width: auto;
+text-align: left;
+}
+
+.jbod-image {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+}
+
+.jbod-drive {
+    position: absolute;
+    left: 50px;
+    top: 200px;
+    z-index: 2;
+}
+
+
+
+.good-attribute {
+text-align: left;
+color: green;
+font-size: large;
+font-family: "Verdana", "Times New Roman";
+}
+
+.bad-attribute {
+text-align: left;
+color: red;
+font-size: large;
+font-family: "Verdana", "Times New Roman";
+} */
+
+.controlboxleft {
+text-align: left;
+color: blue;
+font-family: "Verdana", "Times New Roman";
+border: 2px solid blueviolet;
+display: inline-block;
+}
+.controlboxright {
+    text-align: left;
+    color: blue;
+    font-family: "Verdana", "Times New Roman";
+    border: 2px solid blueviolet;
+    display: inline-block;
+    }
+.errortable {
+    border: 2px solid red;
+    text-align: center;
+    font-family: "Verdana", "Times New Roman";
+    display: inline-block;
+}

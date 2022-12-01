@@ -1,0 +1,72 @@
+ /* Remove default bullets */
+ul, #myUL {
+  list-style-type: none;
+}
+
+/* Remove margins and padding from the parent ul */
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+/*color border red for devices that have errors themselves.*/
+.directerror {
+  color: red;
+  cursor: pointer;
+}
+/* color orange for devices that have devices nested under them with errors. */
+.nestederror {
+  color: orange;
+  cursor: pointer;
+}
+/* color green for devices that have no direct errors or nested errors*/
+.noerror {
+  color: greenyellow;
+  cursor: pointer;
+}
+
+
+/* Style the caret/arrow */
+.caret {
+  cursor: pointer;
+  user-select: none; /* Prevent text selection */
+}
+
+/* Create the caret/arrow with a unicode, and style it */
+.caret::before {
+  content: "\25B6";
+  color:inherit;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* Rotate the caret/arrow icon when clicked on (using JavaScript) */
+.caret-down::before {
+  transform: rotate(90deg);
+  color: inherit;
+}
+
+/* Hide the nested list */
+.nested {
+  display: none;
+}
+
+/* Show the nested list when the user clicks on the caret/arrow (with JavaScript) */
+.active {
+  display: block;
+  color: inherit;
+}
+
+/*format for the tree views*/
+ .physical-tree {
+   width: 48%;
+   float: left;
+   border: solid #11557C 5px;
+   pointer-events: none;
+ }
+
+  .logical-tree {
+   width: 48%;
+   float: right;
+   border: solid #11557C 5px;
+   pointer-events: none;
+ }

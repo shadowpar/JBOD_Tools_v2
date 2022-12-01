@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Statistics</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+<div class="server-tree">
+    <p1 class="column-header"> Server Statistics</p1><br />
+    <p2>The total number of servers is: {{stats.serverStats['number']}}</p2><br/>
+    <p2>Below are the number of servers by experiment.</p2>
+    <ul>
+    {% for experiment in stats.serverStats['numberbyexperiment'] %}
+        <li>{{experiment}} : {{stats.serverStats['numberbyexperiment'][experiment]}}</li>
+        {% endfor %}
+    </ul>
+    <p2>Below are the number of servers by datacenter.</p2>
+    <ul>
+    {% for datacenter in stats.serverStats['numberbydatacenter'] %}
+        <li>{{datacenter}} : {{stats.serverStats['numberbydatacenter'][datacenter]}}</li>
+        {% endfor %}
+    </ul>
+    <p2>Below are the number of servers by servermodel.</p2>
+    <ul>
+    {% for servermodel in stats.serverStats['numberbyservermodel'] %}
+        <li>{{servermodel}} : {{stats.serverStats['numberbyservermodel'][servermodel]}}</li>
+        {% endfor %}
+    </ul>
+    <p2>Below are the number of servers by cpu model.</p2>
+    <ul>
+    {% for cpumodel in stats.serverStats['numberbycpumodel'] %}
+        <li>{{cpumodel}} : {{stats.serverStats['numberbycpumodel'][cpumodel]}}</li>
+        {% endfor %}
+    </ul>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/static/js/main.js"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+
+    <title>Interactive JBOD View</title>
+</head>
+<body>
+
+<div id="jbodimage" class="fit-picture">
+
+</div>
+<div id="div-tooltip" class="fit-tooltip">
+</div>
+
+<script>
+    jbod1 = new ultrastar101(document.getElementById("jbodimage"), JSON.parse('{{attributes| tojson}}'), JSON.parse('{{disks| tojson}}'))
+
+</script>
+</body>
+</html>

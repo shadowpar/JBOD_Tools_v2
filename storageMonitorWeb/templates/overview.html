@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/static/js/overview.js"></script>
+    <link rel="stylesheet" href="/static/css/overview.css">
+    <title>Overview all all monitored equipment errors.</title>
+</head>
+<body>
+<div id="div-physicalroot" class="physical-tree">
+
+</div>
+
+<div id="div-logicalroot" class="logical-tree">
+<p1>Logical tree here.</p1>
+</div>
+
+<script> //makes this with CSS class nested, toggle-able
+let physical = new physicalOverview(JSON.parse({{treedata| tojson}}));
+
+    var toggler = document.getElementsByClassName("caret");
+    for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("click", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
+  toggler[i].addEventListener("auxclick", displayExpandedInformation())
+}
+function displayExpandedInformation(devType,deviceid){
+
+}
+</script>
+<form id="jbodform" hidden="true" method="post" action="/jbodview" target="_blank">
+</form>
+</body>
+</html>

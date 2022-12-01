@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="/static/js/failoverview.js"></script>
+    <link rel="stylesheet" href="/static/css/overview.css">
+    <title>Overview all all monitored equipment errors.</title>
+</head>
+<body>
+<div id="div-physicalroot" class="physical-tree">
+    <h1>Physical View: Servers-JBODs-Hard Drives</h1>
+
+</div>
+
+<div id="div-details" class="logical-tree">
+<h1>Detailed component information.</h1>
+</div>
+
+<script> //makes this with CSS class nested, toggle-able
+let physical = new physicalErrorOverview(JSON.parse({{treedata | tojson}}));
+
+    var toggler = document.getElementsByClassName("caret");
+    for (i = 0; i < toggler.length; i++) {
+  toggler[i].addEventListener("auxclick", function() {
+    this.parentElement.querySelector(".nested").classList.toggle("active");
+    this.classList.toggle("caret-down");
+  });
+}
+resOld()
+
+function updateFailurePage(detailfocus){
+  //create a record of current expandable tree status and pass it as POST data so that when the page refreshes the state of the tree is unchanged.
+  let openIDs = document.getElementsByClassName("caret caret-down")
+  let activeIDs = document.getElementsByClassName("active")
+  let OpenIDs = []
+  let ActiveIDs = []
+  console.log("The following spans are opened.")
+  for (let i =0; i < activeIDs.length;i++){
+    ActiveIDs.push(activeIDs[i].id)
+  }
+  for (let i =0; i < openIDs.length;i++){
+    OpenIDs.push(openIDs[i].id)
+  }
+  let pdata = JSON.stringify({'OpenIDs':OpenIDs,'ActiveIDs':ActiveIDs})
+  dataout = document.createElement('input');
+  dataout.type = 'text';
+  dataout.name = 'viewdata';
+  dataout.value = pdata;
+  myform = document.getElementById('focusform')
+  myform.appendChild(dataout)
+  dataout2 = document.createElement('input')
+  dataout2.type = 'text'
+  dataout2.name = 'detailfocus'
+  dataout2.value = JSON.stringify(detailfocus)
+  myform.appendChild(dataout2)
+  myform.submit()
+  
+}
+
+function resOld () {
+  console.log("Entering resold")
+  let viewdataimport = JSON.parse({{viewdata|tojson}});
+  console.log(viewdataimport)
+
+  for (let i =0; i < viewdataimport['OpenIDs'].length;i++){
+    elem = document.getElementById(viewdataimport['OpenIDs'][i])
+    elem.classList.toggle("caret-down")
+  }
+  for (let i =0; i < viewdataimport['ActiveIDs'].length;i++){
+    elem = document.getElementById(viewdataimport['ActiveIDs'][i])
+    elem.classList.toggle("active")
+  }
+  createFocused()
+  
+}
+
+function createFocused(){
+  console.log("Entering create focused.")
+  let detailfocusimport = JSON.parse({{detailfocus|tojson}})
+  let namemaps = JSON.parse({{displaymaps|tojson}})
+  console.log(detailfocusimport)
+  let divDetails = document.getElementById("div-details")
+  divDetails.appendChild(document.createTextNode("Selected Item: "+detailfocusimport['identifier']))
+  let attrs = document.createElement("ul")
+  let attrsText = document.createTextNode("Attributes")
+  attrs.appendChild(attrsText)
+  divDetails.appendChild(attrs)
+  console.log(namemaps)
+  //Create a list of attributes for the focused device.
+  for (attribute in detailfocusimport['attributes']){
+    let theli = document.createElement("li")
+    if (attribute == 'headnode'){
+      let headnodeid = detailfocusimport['attributes']['headnode']
+      let displayname = namemaps['headnodes'][headnodeid]
+      theli.appendChild(document.createTextNode(attribute+" = "+displayname))
+    } else if (attribute == 'jbod') {
+      let jbodid = detailfocusimport['attributes']['jbod']
+      let displayname = namemaps['jbods'][jbodid]
+      theli.appendChild(document.createTextNode(attribute+" = "+displayname))
+    } else if (attribute == 'raidarray') {
+      let raid = detailfocusimport['attributes']['raidarray']
+      if (raid == null){
+        console.log("raid array is null",raid)
+      } else if (raid == ''){
+        console.log("raid is empty string",raid)
+      }
+      let displayname = namemaps['raidarrays'][raid]
+      theli.appendChild(document.createTextNode(attribute+" = "+displayname))
+      }
+      else if (attribute == 'harddrive'){
+      let hdid = detailfocusimport['attributes']['harddrives']
+      let displayname = namemaps['harddrives'][hdid]
+      theli.appendChild(document.createTextNode(attribute+" = "+displayname))
+      } else {
+      theli.appendChild(document.createTextNode(attribute+" = "+detailfocusimport['attributes'][attribute]))
+    }
+    attrs.appendChild(theli)
+  }
+  //Now we add the list of errors for this device.
+  let errs = document.createElement("ul")
+  let errsText = document.createTextNode("Errors")
+  errs.appendChild(errsText)
+  divDetails.appendChild(errs)
+  console.log("display error data below")
+  console.log(detailfocusimport['errors'])
+  for (let i=0;i < detailfocusimport['errors'].length;i++){
+    let error = detailfocusimport['errors'][i]
+    console.log(i)
+    theli = document.createElement("li")
+    theText = "Error Type: "+error['errortype']+" Description: "+error['description']
+    theli.appendChild(document.createTextNode(theText))
+    errs.appendChild(theli)
+  }
+
+
+
+
+}
+
+
+</script>
+<form id="focusform" hidden="true" method="post">
+</form>
+<!-- target="_blank" -->
+</body>
+</html>

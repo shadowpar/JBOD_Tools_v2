@@ -1,0 +1,51 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Current Failures</title>
+      <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<div class="server-menu">
+    <p1>Servers Systems with Errors</p1>
+    <form action="/failures" method="post">
+    <table>
+    {% for server in servers.failed_hosts %}
+        <tr><td class="server-menu-td">{{server}}<br /><button type="submit" name="targetServer" value="{{server}}"> <img class="fit-picture" src="/static/images/bladeserverFront.gif"></button></td></tr>
+     {% endfor %}
+    </table>
+    </form>
+</div>
+
+<div class="server-tree">
+    <p1 class="column-header"> Software RAID Array Issues</p1><br />
+    <br />{{targetServer}}<br /><br />
+    {% for array in servers.failed_hosts[targetServer]['failedArrays'] %}
+    <div class="raid-array">
+    {{array}}
+    <ul>
+    {% for property in servers.failed_hosts[targetServer]['failedArrays'][array] %}
+        {% if property in servers.failed_hosts[targetServer]['failed_tests'][array] %}
+        <li class="bad-attribute">
+            {{property}} : {{servers.failed_hosts[targetServer]['failedArrays'][array][property]}}
+        </li>
+        {% endif %}
+        {% if property not in servers.failed_hosts[targetServer]['failed_tests'][array] %}
+        <li class="good-attribute">
+            {{property}} : {{servers.failed_hosts[targetServer]['failedArrays'][array][property]}}
+        </li>
+        {% endif %}
+        {% endfor %}
+     </ul>
+     </div>
+    {% endfor %}
+</div>
+
+<div class="server-tree">
+    <p1>
+        This column will hold information about failed JBODs.
+    </p1>
+
+</div>
+</body>
+</html>

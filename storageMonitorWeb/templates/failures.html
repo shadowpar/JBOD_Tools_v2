@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Storage System Active Failures</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+<div id="div-severityselector" class="controlboxleft">
+<table>
+    <tr>Severity Level Display Selector</tr>
+    <tr>
+        <td><input type="radio" id="severityall" value="severityall" name="severityselector"><label for="severityall">Show All</label></td>
+        <td><input type="radio" id="severitychoose" value="severitychoose" name="severityselector"><label for="severitychoose">Select Severity</label></td>
+    </tr>
+    <tr>
+        {% for severity in severityPresent %}
+        <td><input type="checkbox" id={{severity}}+"severity" name="severitySelections" style="visibility: hidden;" checked><label for={{severity}}+"severity" name="severitySelections" style="visibility: hidden;">{{severity}}</label></td>
+        {% endfor %}
+        <!-- <td><input type="checkbox" id="lowseverity" name="severitySelections" style="visibility: hidden;" checked><label for="lowseverity" name="severitySelections" style="visibility: hidden;">Low</label></td>
+        <td><input type="checkbox" id="mediumseverity" name="severitySelections" style="visibility: hidden;" checked><label for="mediumseverity" name="severitySelections" style="visibility: hidden;">Medium</label></td>
+        <td><input type="checkbox" id="highseverity" name="severitySelections" style="visibility: hidden;" checked><label for="highseverity" name="severitySelections" style="visibility: hidden;">High</label></td> -->
+    </tr>
+</table>
+</div>
+<div id="div-deviceselector" class="controlboxleft">
+<table>
+    <tr>Device Type Display Selector</tr>
+    <tr>
+        <td><input type="radio" id="deviceall" value="deviceall" name="deviceselector"><label for="deviceall">Show All</label></td>
+        <td><input type="radio" id="devicechoose" value="devicechoose" name="deviceselector"><label for="devicechoose">Select Devices</label></td>
+    </tr>
+    <tr>
+        {% for tabletype in devTypesPresent %}
+        <td><input type="checkbox" id="{{tabletype}}" name="selectDeviceType" style="visibility: hidden;" checked><label for="{{tabletype}}" name="selectDeviceType" style="visibility: hidden;">{{tabletype}}</label></td>
+        {% endfor %}
+    </tr>
+</table>
+</div>
+
+</div>
+<div id="div-errorselector" class="controlboxleft">
+<table>
+    <tr>Error Type Display Selector</tr>
+    <tr>
+        <td><input type="radio" id="errorall" value="errorall" name="errorselector"><label for="erroreall">Show All</label></td>
+        <td><input type="radio" id="errorchoose" value="errorchoose" name="errorselector"><label for="errorchoose">Select Errors</label></td>
+    </tr>
+    <tr>
+        {% for errortype in failureData %}
+        <td><input type="checkbox" id="{{errortype}}" name="selectErrorType" style="visibility: hidden;" checked><label for="{{errortype}}" name="selectErrorType" style="visibility: hidden;">{{errortype}}</label></td>
+        {% endfor %}
+    </tr>
+</table>
+</div>
+<div id="div-errortable" class="errortable">
+
+</div>
+
+<script>
+    var fdata = {{fdata|tojson}}
+//This section creates the dynamic severity selector box.
+    var severityradio = document.querySelectorAll('input[type=radio][name="severityselector"]');
+    var severityboxes = document.querySelectorAll('input[type=checkbox][name="severitySelections"]')
+    severityradio.forEach(severityradio => severityradio.addEventListener('change', () => updateseverity(severityradio)));
+    severityboxes.forEach(severityboxes => severityboxes.addEventListener('change', () => updatePage()));
+
+//This section creates the dynamic device type selector box.
+    var devicetyperadio = document.querySelectorAll('input[type=radio][name="deviceselector"]');
+    var devicetypeboxes = document.querySelectorAll('input[type=checkbox][name="selectDeviceType"]')
+    devicetyperadio.forEach(devicetyperadio => devicetyperadio.addEventListener('change', () => updateDeviceType(devicetyperadio)));
+    devicetypeboxes.forEach(devicetypeboxes => devicetypeboxes.addEventListener('change', () => updatePage()));
+
+    //This section creates the dynamic error type selector box.
+    var errortyperadio = document.querySelectorAll('input[type=radio][name="errorselector"]');
+    var errortypeboxes = document.querySelectorAll('input[type=checkbox][name="selectErrorType"]')
+    errortyperadio.forEach(errortyperadio => errortyperadio.addEventListener('change', () => updateErrorType(errortyperadio)));
+    errortypeboxes.forEach(errortypeboxes => errortypeboxes.addEventListener('change', () => updatePage()));
+
+ 
+    function updateseverity(severityradio){
+        console.log("Fired the updateseverity function")
+        if (severityradio.value == "severityall"){
+            document.getElementsByName("severitySelections").forEach(function(element){element.checked = true;element.style.visibility = "hidden"; })
+        }
+        else {
+            document.getElementsByName("severitySelections").forEach(function(element){element.style.visibility = "visible";})
+        }
+
+        }
+
+    function updatePage(){
+        console.log("Fired the update page function.");
+        let checkedArray = [];
+        let markedCheckbox = document.querySelectorAll('input[type="checkbox"]:checked');
+        let errorTable = document.createElement('table',id="errortable")
+        let diverror = document.getElementById('div-errortable')
+        diverror.appendChild(errorTable)
+        let tbody = errorTable.getElementsByTagName('tbody')[0];
+
+        for (let checkbox of markedCheckbox){
+            // console.log(checkbox.id)
+            checkedArray.push(checkbox.id);
+        }
+        console.log(fdata)
+        }
+
+    function createErrorTableRow(){
+        let newrow = document.createElement('tr')
+        
+
+    }
+        
+    function updateDeviceType(devicetyperadio){
+        console.log("Fired the updateDeviceType function")
+        if (devicetyperadio.value == "deviceall"){
+            document.getElementsByName("selectDeviceType").forEach(function(element){element.checked = true; element.style.visibility = "hidden";})
+        }
+        else {
+            document.getElementsByName("selectDeviceType").forEach(function(element){element.style.visibility = "visible";})
+        }
+
+        }
+
+    function updateErrorType(errortyperadio){
+        console.log("Fired the updateDeviceType function")
+        if (errortyperadio.value == "errorall"){
+            document.getElementsByName("selectErrorType").forEach(function(element){element.checked = true; element.style.visibility = "hidden";})
+        }
+        else {
+            document.getElementsByName("selectErrorType").forEach(function(element){element.style.visibility = "visible";})
+        }
+
+        }
+        window.onload = function () {
+            // document.getElementById("severityall").click()
+            // document.getElementById("deviceall").click()
+            // document.getElementById("errorall").click()
+            setViewData()
+            updatePage()
+        }
+    function setViewData(){
+        let viewdatajs = JSON.parse({{viewdata|tojson}});
+        for (key in viewdatajs){
+            let element = document.getElementById(key)
+            if (element === null){continue;}
+            // console.log(key);
+            // console.log(viewdatajs[key]);
+            // console.log(element.nodeName);
+            // console.log(element.getAttribute('type'));
+            if (element.getAttribute('type') == 'radio'){
+                // console.log("This element is type radio.");
+                if (viewdatajs[key] == true) {element.click();}
+                continue;
+            }
+            if (element.getAttribute('type') == 'checkbox'){
+                // console.log("This element is type checkbox.");
+                if (viewdatajs[key] == true) {element.checked = true;}
+                continue;
+            }
+
+        }
+
+    }
+
+
+
+</script>
+</body>
+</html>

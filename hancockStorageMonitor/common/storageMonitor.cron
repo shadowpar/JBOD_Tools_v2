@@ -1,0 +1,1 @@
+*/3 * * * * root bash -lc "cd /u0b/hancock/scripts/storageMonitorDaemon && /usr/bin/python3 /u0b/hancock/scripts/storageMonitorDaemon/storageServerScan.py > /var/log/storageMonitor/cronOutput.log 2>&1"
